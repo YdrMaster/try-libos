@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "xtask",
+    "libs/stdio",
     "platforms/riscv64",
     "platforms/riscv64-ld",
     "platforms/guest",

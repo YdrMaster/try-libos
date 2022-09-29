@@ -45,6 +45,9 @@ struct BuildArgs {
     /// app
     #[clap(long)]
     app: String,
+    /// platform
+    #[clap(long, short)]
+    plat: String,
     /// log level
     #[clap(long)]
     log: Option<String>,
@@ -63,11 +66,13 @@ edition = \"2021\"
 
 [dependencies]
 app = {{ path = \"../apps/{0}\", package = \"{0}\" }}
+platform = {{ path = \"../platforms/{1}\", package = \"{1}\" }}
+stdio = {{ path = \"../libs/stdio\" }}
 
 [build-dependencies]
-linker = {{ path = \"../platforms/riscv64-ld\", package = \"riscv64-ld\" }}
+linker = {{ path = \"../platforms/{1}-ld\", package = \"{1}-ld\" }}
 ",
-                self.app
+                self.app, self.plat
             ),
         )
         .unwrap();

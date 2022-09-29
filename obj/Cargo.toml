@@ -5,6 +5,8 @@ edition = "2021"
 
 [dependencies]
 app = { path = "../apps/app2", package = "app2" }
+platform = { path = "../platforms/riscv64", package = "riscv64" }
+stdio = { path = "../libs/stdio" }
 
 [build-dependencies]
 linker = { path = "../platforms/riscv64-ld", package = "riscv64-ld" }

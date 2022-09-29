@@ -2,7 +2,6 @@
 #![feature(naked_functions, asm_sym, asm_const)]
 #![feature(linkage)]
 
-use core::fmt::{self, Write};
 use sbi_rt::*;
 
 #[linkage = "weak"]
@@ -36,44 +35,20 @@ extern "C" fn rust_main() -> ! {
     unreachable!()
 }
 
-#[panic_handler]
-fn panic(info: &core::panic::PanicInfo) -> ! {
-    crate::println!("{info}");
-    system_reset(RESET_TYPE_SHUTDOWN, RESET_REASON_SYSTEM_FAILURE);
-    loop {}
-}
-
-struct Console;
-
-impl Write for Console {
-    #[inline]
-    fn write_str(&mut self, s: &str) -> fmt::Result {
-        for c in s.bytes() {
-            #[allow(deprecated)]
-            sbi_rt::legacy::console_putchar(c as _);
-        }
-        Ok(())
-    }
-}
-
-#[doc(hidden)]
 #[inline]
-pub fn _print(args: fmt::Arguments) {
-    let _ = Console.write_fmt(args);
+pub fn console_putchar(c: u8) {
+    #[allow(deprecated)]
+    legacy::console_putchar(c as _);
 }
 
-#[macro_export]
-macro_rules! print {
-    ($($arg:tt)*) => {
-        $crate::_print(core::format_args!($($arg)*));
-    }
-}
-
-#[macro_export]
-macro_rules! println {
-    () => ($crate::print!("\n"));
-    ($($arg:tt)*) => {{
-        $crate::_print(core::format_args!($($arg)*));
-        $crate::println!();
-    }}
+#[inline]
+pub fn shutdown(error: bool) {
+    system_reset(
+        RESET_TYPE_SHUTDOWN,
+        if error {
+            RESET_REASON_SYSTEM_FAILURE
+        } else {
+            RESET_REASON_NO_REASON
+        },
+    );
 }

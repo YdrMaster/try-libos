@@ -1,7 +1,7 @@
 #![no_std]
 
 #[macro_use]
-extern crate libos;
+extern crate stdio;
 
 pub fn app_main() {
     println!("Hello, this is app2!");
