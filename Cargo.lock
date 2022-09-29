@@ -3,7 +3,15 @@
 version = 3
 
 [[package]]
-name = "app"
+name = "app1"
+version = "0.1.0"
+dependencies = [
+ "libos",
+ "linker",
+]
+
+[[package]]
+name = "app2"
 version = "0.1.0"
 dependencies = [
  "libos",

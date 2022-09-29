@@ -6,5 +6,5 @@ extern crate libos;
 
 #[no_mangle]
 fn app_main() {
-    println!("Hello, world!");
+    println!("Hello, this is app2!");
 }

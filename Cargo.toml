@@ -1,3 +1,3 @@
 [workspace]
-members = ["xtask", "libos", "linker", "app"]
+members = ["xtask", "libos", "linker", "apps/app1", "apps/app2"]
 default-members = ["xtask"]
