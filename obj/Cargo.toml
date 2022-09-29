@@ -1,0 +1,10 @@
+[package]
+name = "obj"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+app = { path = "../apps/app2", package = "app2" }
+
+[build-dependencies]
+linker = { path = "../platforms/riscv64-ld", package = "riscv64-ld" }

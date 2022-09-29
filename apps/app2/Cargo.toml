@@ -7,6 +7,3 @@ edition = "2021"
 
 [dependencies]
 libos = { path = "../../platforms/riscv64", package = "riscv64" }
-
-[build-dependencies]
-linker = { path = "../../platforms/riscv64-ld", package = "riscv64-ld" }

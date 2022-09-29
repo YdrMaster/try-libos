@@ -7,7 +7,7 @@ use sbi_rt::*;
 
 #[linkage = "weak"]
 #[no_mangle]
-fn app_main() {
+fn obj_main() {
     panic!()
 }
 
@@ -31,7 +31,7 @@ unsafe extern "C" fn _start() -> ! {
 }
 
 extern "C" fn rust_main() -> ! {
-    app_main();
+    obj_main();
     system_reset(RESET_TYPE_SHUTDOWN, RESET_REASON_NO_REASON);
     unreachable!()
 }
@@ -40,7 +40,7 @@ extern "C" fn rust_main() -> ! {
 fn panic(info: &core::panic::PanicInfo) -> ! {
     crate::println!("{info}");
     system_reset(RESET_TYPE_SHUTDOWN, RESET_REASON_SYSTEM_FAILURE);
-    unreachable!()
+    loop {}
 }
 
 struct Console;

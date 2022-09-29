@@ -52,8 +52,27 @@ struct BuildArgs {
 
 impl BuildArgs {
     fn make(&self) {
+        fs::write(
+            PROJECT.join("obj").join("Cargo.toml"),
+            format!(
+                "\
+[package]
+name = \"obj\"
+version = \"0.1.0\"
+edition = \"2021\"
+
+[dependencies]
+app = {{ path = \"../apps/{0}\", package = \"{0}\" }}
+
+[build-dependencies]
+linker = {{ path = \"../platforms/riscv64-ld\", package = \"riscv64-ld\" }}
+",
+                self.app
+            ),
+        )
+        .unwrap();
         Cargo::build()
-            .package(&self.app)
+            .package("obj")
             .optional(&self.log, |cargo, level| {
                 cargo.env("LOG", level);
             })
@@ -64,14 +83,14 @@ impl BuildArgs {
 
     fn asm(&self) {
         self.make();
-        let elf = TARGET.join("release").join(&self.app);
+        let elf = TARGET.join("release").join("obj");
         let out = PROJECT.join("kernel.asm");
         fs::write(out, BinUtil::objdump().arg(elf).arg("-d").output().stdout).unwrap();
     }
 
     fn qemu(&self) {
         self.make();
-        let elf = TARGET.join("release").join(&self.app);
+        let elf = TARGET.join("release").join("obj");
         Qemu::system("riscv64")
             .args(["-machine", "virt"])
             .arg("-kernel")

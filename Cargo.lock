@@ -7,7 +7,6 @@ name = "app1"
 version = "0.1.0"
 dependencies = [
  "riscv64",
- "riscv64-ld",
 ]
 
 [[package]]
@@ -15,7 +14,6 @@ name = "app2"
 version = "0.1.0"
 dependencies = [
  "riscv64",
- "riscv64-ld",
 ]
 
 [[package]]
@@ -110,6 +108,14 @@ name = "libc"
 version = "0.2.133"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c0f80d65747a3e43d1596c7c5492d95d5edddaabd45a7fcdb02b95f644164966"
+
+[[package]]
+name = "obj"
+version = "0.1.0"
+dependencies = [
+ "app2",
+ "riscv64-ld",
+]
 
 [[package]]
 name = "once_cell"
