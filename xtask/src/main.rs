@@ -97,12 +97,9 @@ linker = {{ path = \"../platforms/{1}-ld\", package = \"{1}-ld\" }}
         self.make();
         let elf = TARGET.join("release").join("obj");
         Qemu::system("riscv64")
-            .args(["-machine", "virt"])
+            .args(["-machine", self.plat.strip_prefix("qemu-").unwrap()])
             .arg("-kernel")
             .arg(objcopy(elf, true))
-            .args(["-smp", "1"])
-            .args(["-serial", "mon:stdio"])
-            .args(["-m", "2G"])
             .arg("-nographic")
             .invoke();
     }

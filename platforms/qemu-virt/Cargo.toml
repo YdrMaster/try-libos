@@ -1,8 +1,9 @@
 [package]
-name = "riscv64-ld"
+name = "qemu-virt"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+sbi-rt = { git = "https://github.com/rustsbi/sbi-rt", branch = "dev" }

@@ -4,9 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-app = { path = "../apps/app2", package = "app2" }
-platform = { path = "../platforms/riscv64", package = "riscv64" }
+app = { path = "../apps/app1", package = "app1" }
+platform = { path = "../platforms/qemu-sifive_u", package = "qemu-sifive_u" }
 stdio = { path = "../libs/stdio" }
 
 [build-dependencies]
-linker = { path = "../platforms/riscv64-ld", package = "riscv64-ld" }
+linker = { path = "../platforms/qemu-sifive_u-ld", package = "qemu-sifive_u-ld" }

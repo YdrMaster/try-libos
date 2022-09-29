@@ -144,9 +144,9 @@ dependencies = [
 name = "obj"
 version = "0.1.0"
 dependencies = [
- "app2",
- "riscv64",
- "riscv64-ld",
+ "app1",
+ "qemu-sifive_u",
+ "qemu-sifive_u-ld",
  "stdio",
 ]
 
@@ -196,6 +196,28 @@ dependencies = [
 ]
 
 [[package]]
+name = "qemu-sifive_u"
+version = "0.1.0"
+dependencies = [
+ "sbi-rt",
+]
+
+[[package]]
+name = "qemu-sifive_u-ld"
+version = "0.1.0"
+
+[[package]]
+name = "qemu-virt"
+version = "0.1.0"
+dependencies = [
+ "sbi-rt",
+]
+
+[[package]]
+name = "qemu-virt-ld"
+version = "0.1.0"
+
+[[package]]
 name = "quote"
 version = "1.0.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -203,17 +225,6 @@ checksum = "bbe448f377a7d6961e30f5955f9b8d106c3f5e449d493ee1b125c1d43c2b5179"
 dependencies = [
  "proc-macro2",
 ]
-
-[[package]]
-name = "riscv64"
-version = "0.1.0"
-dependencies = [
- "sbi-rt",
-]
-
-[[package]]
-name = "riscv64-ld"
-version = "0.1.0"
 
 [[package]]
 name = "sbi-rt"

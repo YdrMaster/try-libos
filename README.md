@@ -4,4 +4,10 @@
 cargo qemu --plat <PLAT> --app <APP>
 ```
 
-`APP` 可以是 `app1` 或 `app2`，`PLAT` 只能是 `riscv64`。
+- `APP` 可用项：
+  - `app1`
+  - `app2`
+
+- `PLAT` 可用项：
+  - `qemu-virt`
+  - `qemu-sifive_u`

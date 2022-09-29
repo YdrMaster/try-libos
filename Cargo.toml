@@ -2,8 +2,10 @@
 members = [
     "xtask",
     "libs/stdio",
-    "platforms/riscv64",
-    "platforms/riscv64-ld",
+    "platforms/qemu-virt",
+    "platforms/qemu-virt-ld",
+    "platforms/qemu-sifive_u",
+    "platforms/qemu-sifive_u-ld",
     "platforms/guest",
     "apps/app1",
     "apps/app2",
