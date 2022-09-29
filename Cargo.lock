@@ -3,20 +3,6 @@
 version = 3
 
 [[package]]
-name = "app1"
-version = "0.1.0"
-dependencies = [
- "stdio",
-]
-
-[[package]]
-name = "app2"
-version = "0.1.0"
-dependencies = [
- "stdio",
-]
-
-[[package]]
 name = "atty"
 version = "0.2.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -32,6 +18,12 @@ name = "autocfg"
 version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
+
+[[package]]
+name = "bit_field"
+version = "0.10.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dcb6dd1c2376d2e096796e234a70e17e94cc2d5d54ff8ce42b28cef1d0d359a4"
 
 [[package]]
 name = "bitflags"
@@ -91,14 +83,24 @@ dependencies = [
 ]
 
 [[package]]
-name = "guest"
+name = "echo"
 version = "0.1.0"
+dependencies = [
+ "stdio",
+]
 
 [[package]]
 name = "heck"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2540771e65fc8cb83cd6e8a237f70c319bd5c29f78ed1084ba5d50eeac86f7f9"
+
+[[package]]
+name = "helloworld"
+version = "0.1.0"
+dependencies = [
+ "stdio",
+]
 
 [[package]]
 name = "hermit-abi"
@@ -144,9 +146,9 @@ dependencies = [
 name = "obj"
 version = "0.1.0"
 dependencies = [
- "app1",
- "qemu-sifive_u",
- "qemu-sifive_u-ld",
+ "echo",
+ "qemu-virt",
+ "qemu-virt-ld",
  "stdio",
 ]
 
@@ -161,6 +163,10 @@ name = "os_str_bytes"
 version = "6.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9ff7415e9ae3fff1225851df9e0d9e4e5479f947619774677a63572e55e80eff"
+
+[[package]]
+name = "platform"
+version = "0.1.0"
 
 [[package]]
 name = "proc-macro-error"
@@ -199,6 +205,7 @@ dependencies = [
 name = "qemu-sifive_u"
 version = "0.1.0"
 dependencies = [
+ "platform",
  "sbi-rt",
 ]
 
@@ -210,7 +217,10 @@ version = "0.1.0"
 name = "qemu-virt"
 version = "0.1.0"
 dependencies = [
+ "platform",
  "sbi-rt",
+ "spin",
+ "uart_16550",
 ]
 
 [[package]]
@@ -225,6 +235,12 @@ checksum = "bbe448f377a7d6961e30f5955f9b8d106c3f5e449d493ee1b125c1d43c2b5179"
 dependencies = [
  "proc-macro2",
 ]
+
+[[package]]
+name = "rustversion"
+version = "1.0.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "97477e48b4cf8603ad5f7aaf897467cf42ab4218a38ef76fb14c2d6773a6d6a8"
 
 [[package]]
 name = "sbi-rt"
@@ -298,6 +314,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "uart_16550"
+version = "0.2.18"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b074eb9300ad949edd74c529c0e8d451625af71bb948e6b65fe69f72dc1363d9"
+dependencies = [
+ "bitflags",
+ "rustversion",
+ "x86_64",
+]
+
+[[package]]
 name = "unicode-ident"
 version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -308,6 +335,12 @@ name = "version_check"
 version = "0.9.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "49874b5167b65d7193b8aba1567f5c7d93d001cafc34600cee003eda787e483f"
+
+[[package]]
+name = "volatile"
+version = "0.4.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e3ca98349dda8a60ae74e04fd90c7fb4d6a4fbe01e6d3be095478aa0b76f6c0c"
 
 [[package]]
 name = "winapi"
@@ -339,6 +372,18 @@ name = "winapi-x86_64-pc-windows-gnu"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
+
+[[package]]
+name = "x86_64"
+version = "0.14.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "100555a863c0092238c2e0e814c1096c1e5cf066a309c696a87e907b5f8c5d69"
+dependencies = [
+ "bit_field",
+ "bitflags",
+ "rustversion",
+ "volatile",
+]
 
 [[package]]
 name = "xtask"

@@ -6,9 +6,8 @@ members = [
     "platforms/qemu-virt-ld",
     "platforms/qemu-sifive_u",
     "platforms/qemu-sifive_u-ld",
-    "platforms/guest",
-    "apps/app1",
-    "apps/app2",
+    "apps/helloworld",
+    "apps/echo",
     "obj",
 ]
 default-members = ["xtask"]

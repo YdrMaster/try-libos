@@ -5,8 +5,8 @@ cargo qemu --plat <PLAT> --app <APP>
 ```
 
 - `APP` 可用项：
-  - `app1`
-  - `app2`
+  - `helloworld`
+  - `echo`
 
 - `PLAT` 可用项：
   - `qemu-virt`

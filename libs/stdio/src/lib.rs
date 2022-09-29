@@ -26,6 +26,9 @@ pub trait Stdio: Sync {
             self.put_char(c);
         }
     }
+
+    /// 从控制台读取一个字符。
+    fn get_char(&self) -> u8;
 }
 
 /// 库找到输出的方法：保存一个对象引用，这是一种单例。
@@ -63,6 +66,12 @@ pub fn _print(args: Arguments) {
     Logger.write_fmt(args).unwrap();
 }
 
+/// 读取。
+#[inline]
+pub fn get_char() -> u8 {
+    CONSOLE.wait().get_char()
+}
+
 /// 格式化打印。
 #[macro_export]
 macro_rules! print {
@@ -81,10 +90,8 @@ macro_rules! println {
     }}
 }
 
-/// 这个 Unit struct 是 `core::fmt` 要求的。
 struct Logger;
 
-/// 实现 `core::fmt::Write` trait，格式化的基础。
 impl Write for Logger {
     #[inline]
     fn write_str(&mut self, s: &str) -> Result<(), core::fmt::Error> {
@@ -93,9 +100,6 @@ impl Write for Logger {
     }
 }
 
-/// 实现 `log::Log` trait，提供分级日志。
-///
-/// > **NOTICE** 强行塞一个如此简单的实现只是为了使用方便。但强行塞一个复杂的实现也是一样。将这个实现留给用户自己实现也是合适的。
 impl log::Log for Logger {
     fn enabled(&self, _metadata: &log::Metadata) -> bool {
         true

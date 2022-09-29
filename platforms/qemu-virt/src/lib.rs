@@ -2,11 +2,15 @@
 #![feature(naked_functions, asm_sym, asm_const)]
 #![feature(linkage)]
 
+pub use platform::Platform;
+
 use sbi_rt::*;
+use spin::{Mutex, Once};
+use uart_16550::MmioSerialPort;
 
 #[linkage = "weak"]
 #[no_mangle]
-fn obj_main() {
+fn obj_main(_plat: &'static dyn Platform) {
     panic!()
 }
 
@@ -30,24 +34,36 @@ unsafe extern "C" fn _start() -> ! {
 }
 
 extern "C" fn rust_main() -> ! {
-    obj_main();
+    UART0.call_once(|| Mutex::new(unsafe { MmioSerialPort::new(0x1000_0000) }));
+    obj_main(&SifiveU);
     system_reset(RESET_TYPE_SHUTDOWN, RESET_REASON_NO_REASON);
     unreachable!()
 }
 
-#[inline]
-pub fn console_putchar(c: u8) {
-    unsafe { (0x1000_0000 as *mut u8).write_volatile(c) };
-}
+pub struct SifiveU;
 
-#[inline]
-pub fn shutdown(error: bool) {
-    system_reset(
-        RESET_TYPE_SHUTDOWN,
-        if error {
-            RESET_REASON_SYSTEM_FAILURE
-        } else {
-            RESET_REASON_NO_REASON
-        },
-    );
+static UART0: Once<Mutex<MmioSerialPort>> = Once::new();
+
+impl platform::Platform for SifiveU {
+    #[inline]
+    fn console_getchar(&self) -> u8 {
+        UART0.wait().lock().receive()
+    }
+
+    #[inline]
+    fn console_putchar(&self, c: u8) {
+        UART0.wait().lock().send(c)
+    }
+
+    #[inline]
+    fn shutdown(&self, error: bool) {
+        system_reset(
+            RESET_TYPE_SHUTDOWN,
+            if error {
+                RESET_REASON_SYSTEM_FAILURE
+            } else {
+                RESET_REASON_NO_REASON
+            },
+        );
+    }
 }
