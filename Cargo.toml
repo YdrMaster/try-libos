@@ -1,3 +1,10 @@
 [workspace]
-members = ["xtask", "libos", "linker", "apps/app1", "apps/app2"]
+members = [
+    "xtask",
+    "platforms/riscv64",
+    "platforms/riscv64-ld",
+    "platforms/guest",
+    "apps/app1",
+    "apps/app2",
+]
 default-members = ["xtask"]
