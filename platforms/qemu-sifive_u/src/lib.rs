@@ -3,12 +3,13 @@
 #![feature(linkage)]
 
 pub use platform::Platform;
+pub use SifiveU as PlatformImpl;
 
 use sbi_rt::*;
 
 #[linkage = "weak"]
 #[no_mangle]
-fn obj_main(_plat: &'static dyn Platform) {
+fn obj_main() {
     panic!()
 }
 
@@ -32,7 +33,7 @@ unsafe extern "C" fn _start() -> ! {
 }
 
 extern "C" fn rust_main() -> ! {
-    obj_main(&SifiveU);
+    obj_main();
     system_reset(RESET_TYPE_SHUTDOWN, RESET_REASON_NO_REASON);
     unreachable!()
 }
@@ -41,22 +42,22 @@ pub struct SifiveU;
 
 impl platform::Platform for SifiveU {
     #[inline]
-    fn console_getchar(&self) -> u8 {
-        // #[allow(deprecated)]
-        // {
-        //     legacy::console_getchar() as _
-        // }
-        unimplemented!("opensbi legacy::console_getchar is broken")
+    fn console_getchar() -> u8 {
+        #[allow(deprecated)]
+        match legacy::console_getchar() as isize {
+            -1 => unimplemented!("opensbi legacy::console_getchar is broken"),
+            c => c as _,
+        }
     }
 
     #[inline]
-    fn console_putchar(&self, c: u8) {
+    fn console_putchar(c: u8) {
         #[allow(deprecated)]
         legacy::console_putchar(c as _);
     }
 
     #[inline]
-    fn shutdown(&self, error: bool) {
+    fn shutdown(error: bool) {
         system_reset(
             RESET_TYPE_SHUTDOWN,
             if error {

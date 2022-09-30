@@ -1,14 +1,11 @@
 #![no_std]
 #![no_main]
 
-use platform::Platform;
-
-static mut PLAT: Option<&'static dyn Platform> = None;
+use platform::{Platform, PlatformImpl};
 
 #[no_mangle]
-fn obj_main(plat: &'static dyn platform::Platform) {
+fn obj_main() {
     stdio::set_log_level(option_env!("LOG"));
-    unsafe { PLAT = Some(plat) };
     stdio::init(&Stdio);
     app::app_main();
 }
@@ -16,7 +13,7 @@ fn obj_main(plat: &'static dyn platform::Platform) {
 #[panic_handler]
 fn panic(info: &core::panic::PanicInfo) -> ! {
     stdio::log::error!("{info}");
-    unsafe { PLAT.unwrap().shutdown(true) };
+    PlatformImpl::shutdown(true);
     loop {}
 }
 
@@ -25,11 +22,11 @@ struct Stdio;
 impl stdio::Stdio for Stdio {
     #[inline]
     fn put_char(&self, c: u8) {
-        unsafe { PLAT.unwrap().console_putchar(c) };
+        PlatformImpl::console_putchar(c)
     }
 
     #[inline]
     fn get_char(&self) -> u8 {
-        unsafe { PLAT.unwrap().console_getchar() }
+        PlatformImpl::console_getchar()
     }
 }

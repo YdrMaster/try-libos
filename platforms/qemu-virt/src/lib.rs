@@ -3,6 +3,7 @@
 #![feature(linkage)]
 
 pub use platform::Platform;
+pub use Virt as PlatformImpl;
 
 use sbi_rt::*;
 use spin::{Mutex, Once};
@@ -10,7 +11,7 @@ use uart_16550::MmioSerialPort;
 
 #[linkage = "weak"]
 #[no_mangle]
-fn obj_main(_plat: &'static dyn Platform) {
+fn obj_main() {
     panic!()
 }
 
@@ -35,28 +36,28 @@ unsafe extern "C" fn _start() -> ! {
 
 extern "C" fn rust_main() -> ! {
     UART0.call_once(|| Mutex::new(unsafe { MmioSerialPort::new(0x1000_0000) }));
-    obj_main(&SifiveU);
+    obj_main();
     system_reset(RESET_TYPE_SHUTDOWN, RESET_REASON_NO_REASON);
     unreachable!()
 }
 
-pub struct SifiveU;
+pub struct Virt;
 
 static UART0: Once<Mutex<MmioSerialPort>> = Once::new();
 
-impl platform::Platform for SifiveU {
+impl platform::Platform for Virt {
     #[inline]
-    fn console_getchar(&self) -> u8 {
+    fn console_getchar() -> u8 {
         UART0.wait().lock().receive()
     }
 
     #[inline]
-    fn console_putchar(&self, c: u8) {
+    fn console_putchar(c: u8) {
         UART0.wait().lock().send(c)
     }
 
     #[inline]
-    fn shutdown(&self, error: bool) {
+    fn shutdown(error: bool) {
         system_reset(
             RESET_TYPE_SHUTDOWN,
             if error {
