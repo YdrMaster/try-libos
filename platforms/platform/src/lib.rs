@@ -9,5 +9,7 @@ pub trait Platform {
             Self::console_putchar(c);
         }
     }
+    fn frequency() -> usize;
+    fn rdtime() -> usize;
     fn shutdown(error: bool);
 }

@@ -57,6 +57,16 @@ impl platform::Platform for SifiveU {
     }
 
     #[inline]
+    fn frequency() -> usize {
+        0
+    }
+
+    #[inline]
+    fn rdtime() -> usize {
+        riscv::register::time::read()
+    }
+
+    #[inline]
     fn shutdown(error: bool) {
         system_reset(
             RESET_TYPE_SHUTDOWN,

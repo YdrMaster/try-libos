@@ -2,6 +2,7 @@
 members = [
     "xtask",
     "libs/stdio",
+    "libs/time",
     "platforms/qemu-virt",
     "platforms/qemu-virt-ld",
     "platforms/qemu-sifive_u",
