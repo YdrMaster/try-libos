@@ -57,6 +57,14 @@ impl platform::Platform for Virt {
     }
 
     #[inline]
+    fn console_put_str(str: &str) {
+        let mut uart = UART0.wait().lock();
+        for c in str.bytes() {
+            uart.send(c);
+        }
+    }
+
+    #[inline]
     fn shutdown(error: bool) {
         system_reset(
             RESET_TYPE_SHUTDOWN,

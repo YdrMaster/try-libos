@@ -146,9 +146,9 @@ dependencies = [
 name = "obj"
 version = "0.1.0"
 dependencies = [
- "echo",
- "qemu-sifive_u",
- "qemu-sifive_u-ld",
+ "helloworld",
+ "qemu-virt",
+ "qemu-virt-ld",
  "stdio",
 ]
 

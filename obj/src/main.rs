@@ -22,7 +22,12 @@ struct Stdio;
 impl stdio::Stdio for Stdio {
     #[inline]
     fn put_char(&self, c: u8) {
-        PlatformImpl::console_putchar(c)
+        PlatformImpl::console_putchar(c);
+    }
+
+    #[inline]
+    fn put_str(&self, s: &str) {
+        PlatformImpl::console_put_str(s);
     }
 
     #[inline]

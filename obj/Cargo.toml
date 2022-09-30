@@ -4,9 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-app = { path = "../apps/echo", package = "echo" }
-platform = { path = "../platforms/qemu-sifive_u", package = "qemu-sifive_u" }
+app = { path = "../apps/helloworld", package = "helloworld" }
+platform = { path = "../platforms/qemu-virt", package = "qemu-virt" }
 stdio = { path = "../libs/stdio" }
 
 [build-dependencies]
-linker = { path = "../platforms/qemu-sifive_u-ld", package = "qemu-sifive_u-ld" }
+linker = { path = "../platforms/qemu-virt-ld", package = "qemu-virt-ld" }
