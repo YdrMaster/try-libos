@@ -34,7 +34,7 @@ unsafe extern "C" fn _start() -> ! {
 
 extern "C" fn rust_main() -> ! {
     obj_main();
-    system_reset(RESET_TYPE_SHUTDOWN, RESET_REASON_NO_REASON);
+    system_reset(Shutdown, NoReason);
     unreachable!()
 }
 
@@ -68,13 +68,10 @@ impl platform::Platform for SifiveU {
 
     #[inline]
     fn shutdown(error: bool) {
-        system_reset(
-            RESET_TYPE_SHUTDOWN,
-            if error {
-                RESET_REASON_SYSTEM_FAILURE
-            } else {
-                RESET_REASON_NO_REASON
-            },
-        );
+        if error {
+            system_reset(Shutdown, SystemFailure);
+        } else {
+            system_reset(Shutdown, NoReason);
+        }
     }
 }
